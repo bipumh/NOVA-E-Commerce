@@ -1,0 +1,343 @@
+@import "tailwindcss";
+
+@theme {
+  /* Typography — a sharp editorial serif for display type and a clean
+     grotesque sans for body copy, UI and the wordmark. */
+  --font-display: var(--font-fraunces), ui-serif, Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* Neutrals — matte black foundation with warm graphite surfaces. */
+  --color-ivory: #0a0a09;
+  --color-paper: #14110f;
+  --color-sand: #181512;
+  --color-stone: #1e1a16;
+  --color-line: #2a251f;
+  --color-line-strong: #3c352b;
+  --color-ink: #ece5d5;
+  --color-charcoal: #23201b;
+  --color-muted: #a89d8c;
+  --color-dim: #7f7567;
+  --color-faint: #6a6154;
+
+  /* Accent — champagne gold, used sparingly. */
+  --color-clay: #c9a86a;
+  --color-clay-dark: #ad8b50;
+  --color-clay-soft: rgb(201 168 106 / 0.14);
+
+  /* Semantic aliases */
+  --color-background: var(--color-ivory);
+  --color-background-alt: var(--color-sand);
+  --color-foreground: var(--color-ink);
+  --color-surface: var(--color-paper);
+  --color-surface-2: var(--color-sand);
+  --color-surface-3: var(--color-stone);
+  --color-elevated: #1a1612;
+  --color-muted-foreground: var(--color-muted);
+
+  --color-primary: var(--color-clay);
+  --color-primary-bright: var(--color-clay);
+  --color-primary-soft: var(--color-clay-soft);
+
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  --shadow-soft: 0 20px 40px -28px rgb(26 23 19 / 0.22);
+  --shadow-lift: 0 32px 64px -32px rgb(26 23 19 / 0.32);
+
+  --animate-marquee: marquee 42s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  border-color: var(--color-line);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+  -webkit-text-size-adjust: 100%;
+  overflow-x: clip;
+}
+
+body {
+  background-color: var(--color-background);
+  background-image: radial-gradient(
+    140% 70% at 50% -20%,
+    rgb(32 27 21 / 0.55) 0%,
+    transparent 60%
+  );
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Focus visibility — a single, warm ring across interactive elements. */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-clay);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: var(--color-clay);
+  color: var(--color-paper);
+}
+
+/* Animated underline for inline links. */
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size 0.35s ease;
+}
+
+.link-underline:hover {
+  background-size: 100% 1px;
+}
+
+/* Marquee used by the announcement ticker. */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: var(--animate-marquee);
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Restrained entrance for confirmations and toast-like feedback. */
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-pop-in {
+  animation: pop-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease both;
+}
+
+/* ===== Gradient waves — dark luxury hero atmosphere ===== */
+.gw {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      130% 100% at 50% -10%,
+      rgb(32 27 21 / 0.9) 0%,
+      rgb(10 10 9 / 0.72) 52%,
+      rgb(8 8 7 / 0.8) 100%
+    );
+}
+
+.gw-wave {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(64px);
+  will-change: transform;
+  animation: gw-drift 26s ease-in-out infinite alternate;
+}
+
+.gw-sparkle {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(
+    circle,
+    rgb(248 238 214 / 0.95) 0%,
+    rgb(214 187 148 / 0) 70%
+  );
+  opacity: 0.5;
+  animation: gw-twinkle 7s ease-in-out infinite;
+}
+
+.gw-sheen {
+  position: absolute;
+  top: -25%;
+  bottom: -25%;
+  width: 60%;
+  filter: blur(40px);
+  will-change: transform;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgb(232 211 163 / 0.12) 45%,
+    rgb(240 224 184 / 0.3) 50%,
+    rgb(232 211 163 / 0.12) 55%,
+    transparent 100%
+  );
+  animation: gw-sweep 14s ease-in-out infinite;
+}
+
+.gw-glow {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(
+    circle,
+    rgb(201 168 106 / 0.17) 0%,
+    rgb(201 168 106 / 0) 70%
+  );
+  filter: blur(24px);
+  will-change: opacity, transform;
+  animation: gw-breathe 10s ease-in-out infinite;
+}
+
+@keyframes gw-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(9%, -7%, 0) scale(1.2);
+  }
+}
+
+@keyframes gw-drift-rev {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-9%, 7%, 0) scale(0.82);
+  }
+}
+
+@keyframes gw-twinkle {
+  0%,
+  100% {
+    opacity: 0.12;
+    transform: scale(0.6);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+}
+
+@keyframes gw-sweep {
+  from {
+    transform: translateX(-130%);
+  }
+  to {
+    transform: translateX(320%);
+  }
+}
+
+@keyframes gw-breathe {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gw-wave,
+  .gw-sparkle,
+  .gw-sheen,
+  .gw-glow,
+  .hero-img {
+    animation: none !important;
+  }
+}
+
+/* Hero image — slow cinematic ken-burns drift */
+.hero-img {
+  will-change: transform;
+  animation: hero-ken-burns 28s ease-in-out infinite alternate;
+}
+
+@keyframes hero-ken-burns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.035);
+  }
+}
+
+/* Refined scrollbar for a considered desktop feel. */
+@media (pointer: fine) {
+  ::-webkit-scrollbar {
+    width: 11px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-sand);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-stone);
+    border-radius: 9999px;
+    border: 3px solid var(--color-sand);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-clay);
+  }
+}
+
+/* Respect reduced-motion preferences. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
